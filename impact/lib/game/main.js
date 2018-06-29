@@ -6,7 +6,8 @@ ig.module(
 	'impact.debug.debug',
 	'impact.font',
 	'game.levels.qubmap',
-	'game.entities.qubber'
+	'game.entities.qubber',
+	'game.entities.house'
 )
 .defines(function(){
 
@@ -18,11 +19,20 @@ MyGame = ig.Game.extend({
 	
 	init: function() {
 		// Initialize your game here; bind keys etc.
+		
+		// Movement keys
 		ig.input.bind(ig.KEY.SPACE, 'jump');
 		ig.input.bind(ig.KEY.LEFT_ARROW, 'left');
 		ig.input.bind(ig.KEY.RIGHT_ARROW, 'right');
 		ig.input.bind(ig.KEY.UP_ARROW, 'up');
 		ig.input.bind(ig.KEY.DOWN_ARROW, 'down');
+		
+		ig.input.bind(ig.KEY.A, 'left');
+		ig.input.bind(ig.KEY.D, 'right');
+		ig.input.bind(ig.KEY.W, 'up');
+		ig.input.bind(ig.KEY.S, 'down');
+		
+		ig.input.bind(ig.KEY.DOWN_ARROW, 'qubapp');
 
 		this.loadLevel(ig.global['LevelQubmap']);
 	},
@@ -31,7 +41,18 @@ MyGame = ig.Game.extend({
         this.currentLevel = data;
         this.parent(data);
 
-        this.player = ig.game.getEntitiesByType(EntityQubber)[0];
+		this.player = ig.game.getEntitiesByType(EntityQubber)[0];
+		
+		var house1 = {id: 1}
+		var house2 = {id: 2}
+		this.houses = [];
+		this.houses.push(ig.game.spawnEntity( EntityHouse, 300, 300, house1));
+		this.houses.push(ig.game.spawnEntity( EntityHouse, 20, 20, house1));
+		this.houses.push(ig.game.spawnEntity( EntityHouse, 30, 30, house1));
+		this.houses.push(ig.game.spawnEntity( EntityHouse, 40, 40, house1));
+		this.houses.push(ig.game.spawnEntity( EntityHouse, 50, 50, house1));
+		
+		
     },
 	
 	update: function() {

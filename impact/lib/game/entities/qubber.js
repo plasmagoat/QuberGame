@@ -7,7 +7,7 @@ ig.module(
 .defines(function() {
     EntityQubber = ig.Entity.extend({
         type: ig.Entity.TYPE.A,
-        checkAgainst: ig.Entity.TYPE.NONE,
+        checkAgainst: ig.Entity.TYPE.B,
         collides: ig.Entity.COLLIDES.ACTIVE,
         
         animSheet: new ig.AnimationSheet('media/player.png', 16, 28),
@@ -23,7 +23,7 @@ ig.module(
         init: function(x, y, settings){
             this.parent(x, y, settings);
             this.addAnim('idle', 1, [1]);
-            this.addAnim('run', 0.10, [1, 0]);
+            this.addAnim('run', 0.20, [1, 0]);
             this.addAnim('jump', 1, [2]);
             this.addAnim('fall', 0.4, [2]);
         },
@@ -45,9 +45,11 @@ ig.module(
                 this.accel.y = -accel;
             } else if(ig.input.state('down')){
                 this.accel.y = accel;
-            } else
+            } else {
                 this.accel.y = 0;
+            }
 
+            
             
 
             this.currentAnim.flip.x = this.flip;
@@ -60,6 +62,13 @@ ig.module(
                 this.currentAnim = this.anims.idle;
 
         },
+
+        check: function(other){
+            if(other.id == 1){
+                console.log("hit correct house");
+                // OPEN MINI GAME
+            }
+        }
     });
 });
 
