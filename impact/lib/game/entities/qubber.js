@@ -18,7 +18,7 @@ ig.module(
         jump: 360,
         friction: {x: 500, y: 500},
         maxVel: {x: 160, y: 160},
-
+        money: 0,
 
         init: function(x, y, settings){
             this.parent(x, y, settings);
@@ -64,8 +64,12 @@ ig.module(
         },
 
         check: function(other){
+            
             if(other.id == 1){
+                other.id = 0;
                 console.log("hit correct house");
+                other.athouse = true;
+                this.money+=100;
                 // OPEN MINI GAME
             }
         }

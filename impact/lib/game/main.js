@@ -14,7 +14,7 @@ ig.module(
 MyGame = ig.Game.extend({
 	
 	// Load a font
-	font: new ig.Font( 'media/04b03.font.png' ),
+	font: new ig.Font( 'media/04b03.fontblack.png' ),
 	player: null,
 	
 	init: function() {
@@ -45,12 +45,11 @@ MyGame = ig.Game.extend({
 		
 		var house1 = {id: 1}
 		var house2 = {id: 2}
-		this.houses = [];
-		this.houses.push(ig.game.spawnEntity( EntityHouse, 300, 300, house1));
-		this.houses.push(ig.game.spawnEntity( EntityHouse, 20, 20, house1));
-		this.houses.push(ig.game.spawnEntity( EntityHouse, 30, 30, house1));
-		this.houses.push(ig.game.spawnEntity( EntityHouse, 40, 40, house1));
-		this.houses.push(ig.game.spawnEntity( EntityHouse, 50, 50, house1));
+		this.houses = ig.game.getEntitiesByType(EntityHouse);
+		this.houses[0].id = 1;
+		//this.houses.push(ig.game.spawnEntity( EntityHouse, 300, 300, house1));
+		//this.houses.push(ig.game.spawnEntity( EntityHouse, 20, 20, house2));
+		
 		
 		
     },
@@ -72,10 +71,10 @@ MyGame = ig.Game.extend({
 		
 		
 		// Add your own drawing code here
-		//var x = ig.system.width/2,
-		//	y = ig.system.height/2;
+		var x = 5,
+			y = 5;
 		
-		//this.font.draw( 'It Works!', x, y, ig.Font.ALIGN.CENTER );
+		this.font.draw( 'Q: '+ this.player.money , x, y, ig.Font.ALIGN.LEFT );
 
 		var x = this.player.x,
 			y = this.player.y;
