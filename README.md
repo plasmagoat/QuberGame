@@ -3,7 +3,7 @@
 
 ## Next Steps
 * [x] Make it run on web
-* [x] Make it run on [qub.dk](qub.dk)
+* [x] Make it run on [qub.dk](http://www.qub.dk/qub-game/)
 * [ ] UI layers for mini-games
 * [ ] Add sprite sheets
 
