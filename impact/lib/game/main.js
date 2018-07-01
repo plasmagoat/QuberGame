@@ -32,7 +32,7 @@ MyGame = ig.Game.extend({
 		ig.input.bind(ig.KEY.W, 'up');
 		ig.input.bind(ig.KEY.S, 'down');
 		
-		ig.input.bind(ig.KEY.DOWN_ARROW, 'qubapp');
+		//ig.input.bind(ig.KEY.DOWN_ARROW, 'qubapp');
 
 		this.loadLevel(ig.global['LevelQubmap']);
 	},
