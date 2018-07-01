@@ -1,5 +1,12 @@
 # QUB GAME!
 
+
+## Next Steps
+* [x] Make it run on web
+* [x] Make it run on [qub.dk](qub.dk)
+* [ ] UI layers for mini-games
+* [ ] Add sprite sheets
+
 ### Links
 * http://drksephy.github.io/2014/08/27/impactjs/
 * https://github.com/DrkSephy/ACM-Game-Presentation/blob/master/lib/game/entities/player.js
