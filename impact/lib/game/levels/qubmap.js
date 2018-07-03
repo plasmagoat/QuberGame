@@ -5,8 +5,8 @@ LevelQubmap=/*JSON[*/{
 	"entities": [
 		{
 			"type": "EntityQubber",
-			"x": 40,
-			"y": 196
+			"x": 520,
+			"y": 344
 		},
 		{
 			"type": "EntityHouse",
@@ -15,13 +15,13 @@ LevelQubmap=/*JSON[*/{
 		},
 		{
 			"type": "EntityHouse",
-			"x": 220,
-			"y": 164
+			"x": 224,
+			"y": 160
 		},
 		{
 			"type": "EntityHouse",
-			"x": 220,
-			"y": 220
+			"x": 224,
+			"y": 224
 		},
 		{
 			"type": "EntityHouse",
@@ -30,8 +30,8 @@ LevelQubmap=/*JSON[*/{
 		},
 		{
 			"type": "EntityHouse",
-			"x": 388,
-			"y": 164
+			"x": 392,
+			"y": 160
 		},
 		{
 			"type": "EntityHouse",

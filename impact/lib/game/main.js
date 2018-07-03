@@ -5,9 +5,15 @@ ig.module(
 	'impact.game',
 	'impact.debug.debug',
 	'impact.font',
+
 	'game.levels.qubmap',
+	'game.levels.mainMenu',
+
 	'game.entities.qubber',
-	'game.entities.house'
+	'game.entities.house',
+
+	'game.controllers.sceneController',
+	'game.controllers.playerController'
 )
 .defines(function(){
 
@@ -15,38 +21,76 @@ MyGame = ig.Game.extend({
 	
 	// Load a font
 	font: new ig.Font( 'media/04b03.fontblack.png' ),
+	bigfont: new ig.Font( 'media/04b03.fontblackx3.png'),
+	biggerfont: new ig.Font( 'media/04b03.fontblackx5.png'),
+	name: "Quber",
+
 	player: null,
+
+	STATE: {
+		MAINMENU: 0,
+		PLAYMODE: 1,
+		APPMODE: 2,
+		MINIGAME: 3
+	},
 	
 	init: function() {
-		// Initialize your game here; bind keys etc.
-		
+		// Initialize Game
+
 		// Movement keys
-		ig.input.bind(ig.KEY.SPACE, 'jump');
+		// Arrow keys
 		ig.input.bind(ig.KEY.LEFT_ARROW, 'left');
 		ig.input.bind(ig.KEY.RIGHT_ARROW, 'right');
 		ig.input.bind(ig.KEY.UP_ARROW, 'up');
 		ig.input.bind(ig.KEY.DOWN_ARROW, 'down');
-		
+		// WASD 
 		ig.input.bind(ig.KEY.A, 'left');
 		ig.input.bind(ig.KEY.D, 'right');
 		ig.input.bind(ig.KEY.W, 'up');
 		ig.input.bind(ig.KEY.S, 'down');
-		
-		//ig.input.bind(ig.KEY.DOWN_ARROW, 'qubapp');
+		//Open App
+		ig.input.bind(ig.KEY.J, 'pause');
+		ig.input.bind(ig.KEY.Q, 'app');
+		ig.input.bind(ig.KEY.ENTER, 'enter');
 
-		this.loadLevel(ig.global['LevelQubmap']);
+		this.currentState = this.STATE.MAINMENU;
+		this.drawCoordinates = {
+			main: {x: ig.system.width/2, y: ig.system.height/2 - 50},
+			score: {x: 5, y: 5},
+			profile: {x: 5, y: ig.system.height-10}
+		}
+
+        this.sceneController = new ig.sceneController(this, [LevelMainMenu, LevelQubmap])
+        this.playerController = new ig.playerController();
+		//this.loadLevel(ig.global['LevelQubmap']);
+	},
+
+	changeState: function(newState){
+		this.currentState = newState;
+
+		// Advanced state management done here.
+		switch(this.currentState){
+			case this.STATE.PLAYMODE:
+				this.sceneController.loadLevel(1);
+                this.player = ig.game.getEntitiesByType(EntityQubber)[0];
+                this.playerController.addPlayer(this.player);
+				break;
+			case this.STATE.MAINMENU:
+				this.sceneController.loadLevel(0);
+				break;
+		}
 	},
 
 	loadLevel: function(data) {
-        this.currentLevel = data;
+        //this.currentLevel = data;
         this.parent(data);
 
-		this.player = ig.game.getEntitiesByType(EntityQubber)[0];
+		//this.player = ig.game.getEntitiesByType(EntityQubber)[0];
 		
-		var house1 = {id: 1}
-		var house2 = {id: 2}
-		this.houses = ig.game.getEntitiesByType(EntityHouse);
-		this.houses[0].id = 1;
+		//var house1 = {id: 1}
+		//var house2 = {id: 2}
+		//this.houses = ig.game.getEntitiesByType(EntityHouse);
+		//this.houses[0].id = 1;
 		//this.houses.push(ig.game.spawnEntity( EntityHouse, 300, 300, house1));
 		//this.houses.push(ig.game.spawnEntity( EntityHouse, 20, 20, house2));
 		
@@ -58,9 +102,29 @@ MyGame = ig.Game.extend({
 		// Update all entities and backgroundMaps
 		this.parent();
 		
-		if( this.player ) {
-			this.screen.x = this.player.pos.x - ig.system.width/2;
-          	this.screen.y = this.player.pos.y - ig.system.height/2;
+		switch(this.currentState){
+            case this.STATE.PLAYMODE:
+                this.playerController.updatePosition(this.player.pos.x, this.player.pos.y);
+				this.screen.x = this.player.pos.x - ig.system.width/2;
+				this.screen.y = this.player.pos.y - ig.system.height/2;
+				if(ig.input.state('pause')){
+					this.changeState(this.STATE.MAINMENU);
+                }
+                if(ig.input.state('app')){
+                    //open app
+                }
+				break;
+			case this.STATE.MAINMENU:
+				this.screen.x = 0;
+				this.screen.y = 0;
+				if(ig.input.state('enter')){
+					this.changeState(this.STATE.PLAYMODE);
+				}
+				break;
+			default:
+				break;
+				break;
+				
 		}
 		// Add your own, additional update code here
 	},
@@ -70,14 +134,23 @@ MyGame = ig.Game.extend({
 		this.parent();
 		
 		
-		// Add your own drawing code here
-		var x = 5,
-			y = 5;
-		
-		this.font.draw( 'Q: '+ this.player.money , x, y, ig.Font.ALIGN.LEFT );
-
-		var x = this.player.x,
-			y = this.player.y;
+		switch(this.currentState){
+			case this.STATE.PLAYMODE:
+				this.player.draw();
+                this.font.draw( 'Q: '+ this.player.money , this.drawCoordinates.score.x, this.drawCoordinates.score.y, ig.Font.ALIGN.LEFT );
+                this.font.draw( 'Press J to pause', this.drawCoordinates.profile.x, this.drawCoordinates.profile.y, ig.Font.ALIGN.LEFT);
+				break;
+			case this.STATE.MAINMENU:
+                this.biggerfont.draw( this.name, this.drawCoordinates.main.x, this.drawCoordinates.main.y, ig.Font.ALIGN.CENTER );
+                this.bigfont.draw( 'Press Enter to start', this.drawCoordinates.main.x, this.drawCoordinates.main.y + 50, ig.Font.ALIGN.CENTER);
+				break;
+			default:
+				break;
+				break;
+				
+		}
+		//var x = this.player.x,
+		//	y = this.player.y;
 		
 	}
 });
