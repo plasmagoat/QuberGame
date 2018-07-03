@@ -59,7 +59,7 @@ MyGame = ig.Game.extend({
 			score: {x: 5, y: 5},
 			profile: {x: 5, y: ig.system.height-10}
 		}
-
+        
         this.sceneController = new ig.sceneController(this, [LevelMainMenu, LevelQubmap])
         this.playerController = new ig.playerController();
 		//this.loadLevel(ig.global['LevelQubmap']);
@@ -70,12 +70,15 @@ MyGame = ig.Game.extend({
 
 		// Advanced state management done here.
 		switch(this.currentState){
-			case this.STATE.PLAYMODE:
-				this.sceneController.loadLevel(1);
+            case this.STATE.PLAYMODE:
+                // load map level
+                this.sceneController.loadLevel(1);
+                // find player and 'remember' last position
                 this.player = ig.game.getEntitiesByType(EntityQubber)[0];
                 this.playerController.addPlayer(this.player);
 				break;
-			case this.STATE.MAINMENU:
+            case this.STATE.MAINMENU:
+                // load main menu map
 				this.sceneController.loadLevel(0);
 				break;
 		}
@@ -104,20 +107,26 @@ MyGame = ig.Game.extend({
 		
 		switch(this.currentState){
             case this.STATE.PLAYMODE:
+                //continuesly update player position
                 this.playerController.updatePosition(this.player.pos.x, this.player.pos.y);
+                //center screen on player
 				this.screen.x = this.player.pos.x - ig.system.width/2;
 				this.screen.y = this.player.pos.y - ig.system.height/2;
 				if(ig.input.state('pause')){
+                    //open main menu
 					this.changeState(this.STATE.MAINMENU);
                 }
                 if(ig.input.state('app')){
                     //open app
                 }
 				break;
-			case this.STATE.MAINMENU:
+            case this.STATE.MAINMENU:
+                //reset screen position
 				this.screen.x = 0;
 				this.screen.y = 0;
 				if(ig.input.state('enter')){
+                    //start game
+                    // TODO add buttons and have enter as the select
 					this.changeState(this.STATE.PLAYMODE);
 				}
 				break;
@@ -135,15 +144,20 @@ MyGame = ig.Game.extend({
 		
 		
 		switch(this.currentState){
-			case this.STATE.PLAYMODE:
-				this.player.draw();
+            case this.STATE.PLAYMODE:
+                //draw player
+                this.player.draw();
+                //draw player stats 'profile'
                 this.font.draw( 'Q: '+ this.player.money , this.drawCoordinates.score.x, this.drawCoordinates.score.y, ig.Font.ALIGN.LEFT );
                 this.font.draw( 'Press J to pause', this.drawCoordinates.profile.x, this.drawCoordinates.profile.y, ig.Font.ALIGN.LEFT);
 				break;
-			case this.STATE.MAINMENU:
+            case this.STATE.MAINMENU:
+                //Game Title
                 this.biggerfont.draw( this.name, this.drawCoordinates.main.x, this.drawCoordinates.main.y, ig.Font.ALIGN.CENTER );
+                //Subtext
                 this.bigfont.draw( 'Press Enter to start', this.drawCoordinates.main.x, this.drawCoordinates.main.y + 50, ig.Font.ALIGN.CENTER);
-				break;
+                // TODO add buttons
+                break;
 			default:
 				break;
 				break;

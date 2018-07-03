@@ -14,6 +14,8 @@ ig.module(
                 this.defaults = {position: this.position}
             },
 
+            //Give new player coordinates of player location
+            //playerEntity is the player "quber" on the map
             addPlayer: function(playerEntity){
                 if( !this.position.x ){
                     this.position.x = playerEntity.pos.x;
@@ -24,6 +26,7 @@ ig.module(
                 this.player.pos.y = this.position.y;
             },
 
+            //Update player position
             updatePosition: function(x,y){
                 this.position.x = x;
                 this.position.y = y;
