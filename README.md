@@ -34,5 +34,23 @@ Run in console:
 getFontList('Bahnschrift,...,...')
 
 
+## Running the game
 
+### Development
 
+requirements: python 2.7
+
+to run development server cd to impact folder and run:
+
+python server.py
+
+### Deployment
+
+requrements: php executable
+
+run the bake.bat or back.sh script in the tools folder.
+
+this generates a game.min.js with all the bundled javascript.
+
+upload media folder, game.min.js and indexdeploy.html to server
+rename indexdeploy.html to index.html
