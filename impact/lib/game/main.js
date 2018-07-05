@@ -11,6 +11,7 @@ ig.module(
 
 	'game.entities.qubber',
 	'game.entities.house',
+	'game.entities.qubapp',
 
 	'game.controllers.sceneController',
 	'game.controllers.playerController'
@@ -25,7 +26,10 @@ MyGame = ig.Game.extend({
 	biggerfont: new ig.Font( 'media/04b03.fontblackx5.png'),
 	name: "Quber",
 
-	player: null,
+    clearColor: '#333333',
+
+    player: null,
+    phone: null,
 
 	STATE: {
 		MAINMENU: 0,
@@ -36,7 +40,7 @@ MyGame = ig.Game.extend({
 	
 	init: function() {
 		// Initialize Game
-
+        
 		// Movement keys
 		// Arrow keys
 		ig.input.bind(ig.KEY.LEFT_ARROW, 'left');
@@ -52,6 +56,9 @@ MyGame = ig.Game.extend({
 		ig.input.bind(ig.KEY.J, 'pause');
 		ig.input.bind(ig.KEY.Q, 'app');
 		ig.input.bind(ig.KEY.ENTER, 'enter');
+        
+        ig.input.bind(ig.KEY.MOUSE1, 'leftMouse');
+		ig.input.bind(ig.KEY.MOUSE2, 'rightMouse');
 
 		this.currentState = this.STATE.MAINMENU;
 		this.drawCoordinates = {
@@ -76,6 +83,7 @@ MyGame = ig.Game.extend({
                 // find player and 'remember' last position
                 this.player = ig.game.getEntitiesByType(EntityQubber)[0];
                 this.playerController.addPlayer(this.player);
+                this.phone = ig.game.spawnEntity(EntityQubapp, ig.system.width, 0);
 				break;
             case this.STATE.MAINMENU:
                 // load main menu map
@@ -111,7 +119,10 @@ MyGame = ig.Game.extend({
                 this.playerController.updatePosition(this.player.pos.x, this.player.pos.y);
                 //center screen on player
 				this.screen.x = this.player.pos.x - ig.system.width/2;
-				this.screen.y = this.player.pos.y - ig.system.height/2;
+                this.screen.y = this.player.pos.y - ig.system.height/2;
+                
+                this.phone.pos.x = this.screen.x + ig.system.width - this.phone.size.x;
+                this.phone.pos.y = this.screen.y;
 				if(ig.input.state('pause')){
                     //open main menu
 					this.changeState(this.STATE.MAINMENU);
@@ -147,6 +158,7 @@ MyGame = ig.Game.extend({
             case this.STATE.PLAYMODE:
                 //draw player
                 this.player.draw();
+                this.phone.draw();
                 //draw player stats 'profile'
                 this.font.draw( 'Q: '+ this.player.money , this.drawCoordinates.score.x, this.drawCoordinates.score.y, ig.Font.ALIGN.LEFT );
                 this.font.draw( 'Press J to pause', this.drawCoordinates.profile.x, this.drawCoordinates.profile.y, ig.Font.ALIGN.LEFT);
