@@ -9,9 +9,10 @@ ig.module(
         type: ig.Entity.TYPE.A,
         checkAgainst: ig.Entity.TYPE.B,
         collides: ig.Entity.COLLIDES.ACTIVE,
-        
-        animSheet: new ig.AnimationSheet('media/player.png', 16, 28),
-        size: {x: 16, y: 28},
+
+        //animSheet: new ig.AnimationSheet('media/sprite_girl.png', 16, 28),
+        animSheet: new ig.AnimationSheet('media/sprite_girl2.png', 32,35),
+        size: {x: 32, y: 35},
         flip: true,
         accelGround: 200,
         accelAir: 310,
@@ -22,10 +23,10 @@ ig.module(
 
         init: function(x, y, settings){
             this.parent(x, y, settings);
-            this.addAnim('idle', 1, [1]);
-            this.addAnim('run', 0.20, [1, 0]);
-            this.addAnim('jump', 1, [2]);
-            this.addAnim('fall', 0.4, [2]);
+            this.addAnim('idle', 0.2, [0,1,2,3,4,5]);
+            this.addAnim('run', 0.1, [6,7,8,9,10,11]);
+            //this.addAnim('jump', 1, [2]);
+            //this.addAnim('fall', 0.4, [2]);
         },
 
         update: function(){
@@ -33,10 +34,10 @@ ig.module(
             var accel = this.accelAir;
             if(ig.input.state('left')){
                 this.accel.x = -accel;
-                this.flip = false;
+                this.flip = true;
             } else if(ig.input.state('right')){
                 this.accel.x = accel;
-                this.flip = true;
+                this.flip = false;
             } else
                 this.accel.x = 0;
 
@@ -49,13 +50,13 @@ ig.module(
                 this.accel.y = 0;
             }
 
-            
-            
+
+
 
             this.currentAnim.flip.x = this.flip;
 
             this.parent();
-            
+
             if(this.vel.x != 0 | this.vel.y != 0)
                 this.currentAnim = this.anims.run;
             else
@@ -64,7 +65,7 @@ ig.module(
         },
 
         check: function(other){
-            
+
             if(other.id == 1){
                 other.id = 0;
                 console.log("hit correct house");
@@ -75,4 +76,3 @@ ig.module(
         }
     });
 });
-
