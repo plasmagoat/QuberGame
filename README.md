@@ -15,7 +15,7 @@
 * https://www.safaribooksonline.com/library/view/building-html5-games/9781449331207/ch04s21.html
 * https://gist.github.com/detj/2406824
 * https://github.com/boneheadmed/YOSS
-* 
+*
 
 
 
@@ -26,12 +26,15 @@ https://github.com/amadeus/impact-layers
 
 https://github.com/samgreen/ImpactJS-Scene-Manager
 
-FONTS:
+### FONTS:
 
 http://impactjs.com/font-tool/
 
 Run in console:
 getFontList('Bahnschrift,...,...')
+
+### Game Characters:
+We used an adapted version of the [free charaters from gameart2d](https://www.gameart2d.com/freebies.html)
 
 
 ## Running the game
