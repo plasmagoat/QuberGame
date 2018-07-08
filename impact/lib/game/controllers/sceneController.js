@@ -41,6 +41,10 @@ ig.module(
                 }
             },
 
+            getCurrent: function() {
+                return this.levels[this.currentLevel];
+            }
+
         });
 
     });
