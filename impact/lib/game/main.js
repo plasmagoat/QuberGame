@@ -7,6 +7,7 @@ ig.module(
 	'impact.font',
 
 	'game.levels.qubmap',
+	'game.levels.qubmapbig',
 	'game.levels.mainMenu',
 
 	'game.entities.qubber',
@@ -71,7 +72,7 @@ MyGame = ig.Game.extend({
 			profile: {x: 5, y: window.innerHeight/2-30}
 		}
         
-        this.sceneController = new ig.sceneController(this, [LevelMainMenu, LevelQubmap])
+        this.sceneController = new ig.sceneController(this, [LevelMainMenu, LevelQubmapbig])
         this.playerController = new ig.playerController();
 		//this.loadLevel(ig.global['LevelQubmap']);
 	},
@@ -150,8 +151,8 @@ MyGame = ig.Game.extend({
 				break;
             case this.STATE.MAINMENU:
                 //reset screen position
-				this.screen.x = 0;
-				this.screen.y = 0;
+				this.screen.x = -ig.system.width/2 + (32*5);
+				this.screen.y = -ig.system.height/2 + (32*5);
 				if(ig.input.state('enter')){
                     //start game
                     // TODO add buttons and have enter as the select
