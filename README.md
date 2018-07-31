@@ -4,6 +4,7 @@
 ## Next Steps
 * [x] Make it run on web
 * [x] Make it run on [qub.dk](http://www.qub.dk/qub-game/)
+* [ ] Load Qub custom spritesheet
 * [ ] UI layers for mini-games
 * [ ] Add sprite sheets
 
