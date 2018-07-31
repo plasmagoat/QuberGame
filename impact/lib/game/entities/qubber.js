@@ -11,7 +11,8 @@ ig.module(
         collides: ig.Entity.COLLIDES.ACTIVE,
 
         //animSheet: new ig.AnimationSheet('media/sprite_girl.png', 16, 28),
-        animSheet: new ig.AnimationSheet('media/sprite_girl2.png', 32,35),
+        //animSheet: new ig.AnimationSheet('media/sprite_girl2.png', 32,35),
+        animSheet: new ig.AnimationSheet('media/Qub_run_3_2.png',62,77),
         size: {x: 32, y: 35},
         flip: true,
         accelGround: 200,
@@ -23,8 +24,8 @@ ig.module(
 
         init: function(x, y, settings){
             this.parent(x, y, settings);
-            this.addAnim('idle', 0.2, [0,1,2,3,4,5]);
-            this.addAnim('run', 0.1, [6,7,8,9,10,11]);
+            this.addAnim('idle', 0.2, [5,11,13,15]);
+            this.addAnim('run', 0.2, [0,4,1,2,9,3,6,7,8,10,12,14]);
             //this.addAnim('jump', 1, [2]);
             //this.addAnim('fall', 0.4, [2]);
         },
@@ -34,10 +35,10 @@ ig.module(
             var accel = this.accelAir;
             if(ig.input.state('left')){
                 this.accel.x = -accel;
-                this.flip = true;
+                this.flip = false;
             } else if(ig.input.state('right')){
                 this.accel.x = accel;
-                this.flip = false;
+                this.flip = true;
             } else
                 this.accel.x = 0;
 
