@@ -7,6 +7,7 @@ ig.module(
 	'impact.font',
 
 	'game.levels.qubmap',
+	'game.levels.qubmapbig',
 	'game.levels.mainMenu',
 
 	'game.entities.qubber',
@@ -60,16 +61,32 @@ MyGame = ig.Game.extend({
         ig.input.bind(ig.KEY.MOUSE1, 'leftMouse');
 		ig.input.bind(ig.KEY.MOUSE2, 'rightMouse');
 
+
+		//resize game canvas
+		window.onresize = this.onresize;
+
 		this.currentState = this.STATE.MAINMENU;
 		this.drawCoordinates = {
 			main: {x: ig.system.width/2, y: ig.system.height/2 - 50},
 			score: {x: 5, y: 5},
-			profile: {x: 5, y: ig.system.height-10}
+			profile: {x: 5, y: window.innerHeight/2-30}
 		}
         
-        this.sceneController = new ig.sceneController(this, [LevelMainMenu, LevelQubmap])
+        this.sceneController = new ig.sceneController(this, [LevelMainMenu, LevelQubmapbig])
         this.playerController = new ig.playerController();
 		//this.loadLevel(ig.global['LevelQubmap']);
+	},
+
+	onresize: function(event) {
+		var width = Math.floor(window.innerWidth/ig.system.scale);
+		var height = Math.floor(window.innerHeight/ig.system.scale);
+		ig.system.resize(width, height);
+
+		ig.game.drawCoordinates = {
+			main: {x: ig.system.width/2, y: ig.system.height/2 - 50},
+			score: {x: 5, y: 5},
+			profile: {x: 5, y: window.innerHeight/2-30}
+		}
 	},
 
 	changeState: function(newState){
@@ -117,9 +134,10 @@ MyGame = ig.Game.extend({
             case this.STATE.PLAYMODE:
                 //continuesly update player position
                 this.playerController.updatePosition(this.player.pos.x, this.player.pos.y);
-                //center screen on player
-				this.screen.x = this.player.pos.x - ig.system.width/2;
-                this.screen.y = this.player.pos.y - ig.system.height/2;
+				//center screen on player
+				var currentmap = ig.game.backgroundMaps[0];
+				this.screen.x = (this.player.pos.x - ig.system.width/2).limit(0, currentmap.width * currentmap.tilesize - ig.system.width);
+                this.screen.y = (this.player.pos.y - ig.system.height/2).limit(0, currentmap.height * currentmap.tilesize - ig.system.height);
                 
                 this.phone.pos.x = this.screen.x + ig.system.width - this.phone.size.x;
                 this.phone.pos.y = this.screen.y;
@@ -133,8 +151,8 @@ MyGame = ig.Game.extend({
 				break;
             case this.STATE.MAINMENU:
                 //reset screen position
-				this.screen.x = 0;
-				this.screen.y = 0;
+				this.screen.x = -ig.system.width/2 + (32*5);
+				this.screen.y = -ig.system.height/2 + (32*5);
 				if(ig.input.state('enter')){
                     //start game
                     // TODO add buttons and have enter as the select
@@ -161,7 +179,8 @@ MyGame = ig.Game.extend({
                 this.phone.draw();
                 //draw player stats 'profile'
                 this.font.draw( 'Q: '+ this.player.money , this.drawCoordinates.score.x, this.drawCoordinates.score.y, ig.Font.ALIGN.LEFT );
-                this.font.draw( 'Press J to pause', this.drawCoordinates.profile.x, this.drawCoordinates.profile.y, ig.Font.ALIGN.LEFT);
+				this.font.draw( 'Press J to pause', this.drawCoordinates.profile.x, this.drawCoordinates.profile.y, ig.Font.ALIGN.LEFT);
+				ig.log()
 				break;
             case this.STATE.MAINMENU:
                 //Game Title
@@ -184,6 +203,9 @@ MyGame = ig.Game.extend({
 
 // Start the Game with 60fps, a resolution of 320x240, scaled
 // up by a factor of 2
-ig.main( '#canvas', MyGame, 60, 320, 240, 2 );
+	var scale = 2;
+    var width = Math.floor(window.innerWidth/scale);
+    var height = Math.floor(window.innerHeight/scale);
+    ig.main('#canvas', MyGame, 60, width, height, scale);
 
 });

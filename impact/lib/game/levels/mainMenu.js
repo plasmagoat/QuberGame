@@ -9,7 +9,7 @@ LevelMainMenu=/*JSON[*/{
 			"width": 10,
 			"height": 9,
 			"linkWithCollision": false,
-			"visible": true,
+			"visible": 1,
 			"tilesetName": "media/woodland.png",
 			"repeat": false,
 			"preRender": false,
@@ -25,7 +25,7 @@ LevelMainMenu=/*JSON[*/{
 				[36,2,2,2,2,2,2,2,2,36],
 				[36,2,2,2,2,2,2,2,2,36],
 				[36,2,2,2,2,2,2,2,2,36],
-				[36,2,2,2,2,2,2,2,2,36]
+				[49,52,52,52,52,52,52,52,52,51]
 			]
 		}
 	]
