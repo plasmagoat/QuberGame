@@ -48,6 +48,8 @@ requirements: python 2.7
 to run development server cd to impact folder and run:
 
 python server.py
+>if you're Danny use:
+`python2.7 "/path/to/repo/QuberGame/impact/server.py"`
 
 ### Deployment
 
